@@ -27,6 +27,21 @@ let categories = [
   },
 ]
 
+let users = [
+  {
+    first_name : 'Oso',
+    last_name : 'Perez',
+    email : 'perezoso@noemail.com',
+    password : '%^&ErGjGF123^',
+  },
+  {
+    first_name : 'Lalo',
+    last_name : 'Landa',
+    email : 'landalolo@noemail.com',
+    password : '6458QwERTtt$%^&',
+  },
+]
+
 app.get('/', (req, res) => {
   res.send('Hi from Express');
 });
@@ -54,6 +69,16 @@ app.get('/categories/:category_id', (req, res) => {
 app.get('/categories/:category_id/products/:product_id', (req, res) => {
   const {category_id, product_id} = req.params
   res.json({category_id, product_id})
+})
+
+app.get('/users', (req, res) => {
+  res.json(users)
+});
+
+app.get('/users/:user_id', (req, res) => {
+  const { user_id } = req.params
+  const user = (user_id > 0 && user_id <=users.length) ? {id: user_id, ...users.at(user_id-1)}:{}
+  res.json(user)
 })
 
 app.listen(port, host, () => {
