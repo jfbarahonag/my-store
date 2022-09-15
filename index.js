@@ -72,6 +72,10 @@ app.get('/categories/:category_id/products/:product_id', (req, res) => {
 })
 
 app.get('/users', (req, res) => {
+  const {limit, offset} = req.query
+  if (limit && offset) {
+    users = {limit, offset, users}
+  }
   res.json(users)
 });
 
