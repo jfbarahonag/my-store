@@ -26,10 +26,46 @@ router.get('/', (req, res) => {
     res.json(resp)
 });
   
-router.get('/:user_id', (req, res) => {
-    const { user_id } = req.params
-    const user = (user_id > 0 && user_id <=users.length) ? {id: user_id, ...users.at(user_id-1)}:{}
+router.get('/:id', (req, res) => {
+    const { user_id: id } = req.params
+    const user = (id > 0 && id <=users.length) ? {id: id, ...users.at(id-1)}:{}
     res.json(user)
 })
+
+router.post('/', (req, res) => {
+    const body = req.body;
+    res.json({
+      message:"Created",
+      data: body
+    });
+});
+  
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const body = req.body;
+    res.json({
+      message: 'update total',
+      data: body,
+      id
+    });
+});
+  
+router.patch('/:id', (req, res) => {
+    const { id } = req.params;
+    const body = req.body;
+    res.json({
+      message: 'update partial',
+      data: body,
+      id
+    });
+});
+
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    res.json({
+      message: 'delete',
+      id
+    });
+});
 
 module.exports = router

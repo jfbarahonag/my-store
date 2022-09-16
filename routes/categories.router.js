@@ -27,4 +27,40 @@ router.get('/:category_id/products/:product_id', (req, res) => {
     res.json({category_id, product_id})
 })
 
+router.post('/', (req, res) => {
+  const body = req.body;
+  res.json({
+    message:"Created",
+    data: body
+  });
+});
+
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  res.json({
+    message: 'update total',
+    data: body,
+    id
+  });
+});
+
+router.patch('/:id', (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  res.json({
+    message: 'update partial',
+    data: body,
+    id
+  });
+});
+
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  res.json({
+    message: 'delete',
+    id
+  });
+});
+
 module.exports = router
