@@ -30,14 +30,22 @@ router.get('/filter', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    const { product_id: id } = req.params;
+    let { id } = req.params;
+    id = parseInt(id)
     const product = (id > 0 && id <=products.length) ? {id: id, ...products.at(id-1)}:{};
-    res.json(product);
+    if (JSON.stringify(product) != JSON.stringify({})) {
+      res.status(200).json(product);
+    }
+    else{
+      res.status(404).json({
+        message:"Not found"
+      });
+    }
 });
 
 router.post('/', (req, res) => {
   const body = req.body;
-  res.json({
+  res.status(201).json({
     message:"Created",
     data: body
   });
