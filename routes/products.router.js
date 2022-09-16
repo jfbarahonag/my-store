@@ -29,18 +29,46 @@ router.get('/filter', (req, res) => {
     res.send('i am a filter')
 });
 
-router.get('/:product_id', (req, res) => {
-    const { product_id } = req.params;
-    const product = (product_id > 0 && product_id <=products.length) ? {id: product_id, ...products.at(product_id-1)}:{};
+router.get('/:id', (req, res) => {
+    const { product_id: id } = req.params;
+    const product = (id > 0 && id <=products.length) ? {id: id, ...products.at(id-1)}:{};
     res.json(product);
 });
 
 router.post('/', (req, res) => {
-  const body = req.body
+  const body = req.body;
   res.json({
     message:"Created",
     data: body
-  })
-})
+  });
+});
+
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  res.json({
+    message: 'update total',
+    data: body,
+    id
+  });
+});
+
+router.patch('/:id', (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  res.json({
+    message: 'update partial',
+    data: body,
+    id
+  });
+});
+
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  res.json({
+    message: 'delete',
+    id
+  });
+});
 
 module.exports = router
