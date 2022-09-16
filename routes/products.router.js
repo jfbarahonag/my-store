@@ -35,4 +35,12 @@ router.get('/:product_id', (req, res) => {
     res.json(product);
 });
 
+router.post('/', (req, res) => {
+  const body = req.body
+  res.json({
+    message:"Created",
+    data: body
+  })
+})
+
 module.exports = router
