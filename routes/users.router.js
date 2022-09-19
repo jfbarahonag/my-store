@@ -1,71 +1,66 @@
 const express = require('express');
+const UsersService = require('../services/users.service');
 
 const router = express.Router()
 
-let users = [
-    {
-        first_name : 'Oso',
-        last_name : 'Perez',
-        email : 'perezoso@noemail.com',
-        password : '%^&ErGjGF123^',
-    },
-    {
-        first_name : 'Lalo',
-        last_name : 'Landa',
-        email : 'landalolo@noemail.com',
-        password : '6458QwERTtt$%^&',
-    },
-]
+const usersService = new UsersService();
 
 router.get('/', (req, res) => {
-    const {limit, offset} = req.query
-    let resp = users
-    if (limit && offset) {
-      resp = {limit, offset, users}
-    }
-    res.json(resp)
+  const {limit, offset} = req.query
+  let users = usersService.find()
+  if (limit && offset) {
+    users = {limit, offset, users}
+  }
+  res.json(users)
 });
   
 router.get('/:id', (req, res) => {
-    const { user_id: id } = req.params
-    const user = (id > 0 && id <=users.length) ? {id: id, ...users.at(id-1)}:{}
-    res.json(user)
+  const { id } = req.params
+  const user = usersService.findOne(id)
+  if (JSON.stringify(user) != JSON.stringify({})) {
+    res.status(200).json(user);
+  }
+  else{
+    res.status(404).json({
+      message:"Not found"
+    });
+  }
 })
 
 router.post('/', (req, res) => {
-    const body = req.body;
-    res.json({
-      message:"Created",
-      data: body
-    });
+  const body = req.body;
+  res.json({
+    message:"Created",
+    data: body
+  });
 });
   
 router.put('/:id', (req, res) => {
-    const { id } = req.params;
-    const body = req.body;
-    res.json({
-      message: 'update total',
-      data: body,
-      id
-    });
+  const { id } = req.params;
+  const body = req.body;
+  res.json({
+    message: 'update total',
+    data: body,
+    id
+  });
 });
   
 router.patch('/:id', (req, res) => {
-    const { id } = req.params;
-    const body = req.body;
-    res.json({
-      message: 'update partial',
-      data: body,
-      id
-    });
+  const { id } = req.params;
+  const body = req.body;
+  res.json({
+    message: 'update partial',
+    data: body,
+    id
+  });
 });
 
 router.delete('/:id', (req, res) => {
-    const { id } = req.params;
-    res.json({
-      message: 'delete',
-      id
-    });
+  const { id } = req.params;
+  res.json({
+    message: 'delete',
+    id
+  });
 });
 
 module.exports = router
