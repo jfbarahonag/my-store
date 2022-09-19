@@ -1,7 +1,6 @@
 const faker = require('faker')
 
 class ProductsService {
-
     constructor(){
         this.products = [];
         this.generate()
@@ -18,8 +17,13 @@ class ProductsService {
         };
     }
 
-    create() {
-
+    create(data) {
+        const newProduct = {
+            id: faker.datatype.uuid(),
+            ...data
+        };
+        this.products.push(newProduct);
+        return newProduct;
     }
 
     find() {
@@ -30,12 +34,26 @@ class ProductsService {
         return this.products.find(item => item.id === id) || {};
     }
 
-    update() {
-
+    update( id, changes) {
+        const idx = this.products.findIndex(item => item.id === id);
+        if (idx === -1) {
+            throw new Error('Product not found');
+        }
+        const product = this.products[idx]
+        this.products[idx] = {
+            ...product,
+            ...changes
+        };
+        return this.products[idx]
     }
-
-    delete() {
-
+    
+    delete(id) {
+        const idx = this.products.findIndex(item => item.id === id);
+        if (idx === -1) {
+            throw new Error('Product not found');
+        }
+        this.products.splice(idx, 1)
+        return { id }
     }
 }
 

@@ -30,9 +30,10 @@ router.get('/:category_id/products/:product_id', (req, res) => {
 
 router.post('/', (req, res) => {
   const body = req.body;
+  const newCategory = categoriesService.create(body)
   res.json({
     message:"Created",
-    data: body
+    data: newCategory
   });
 });
 
@@ -49,19 +50,14 @@ router.put('/:id', (req, res) => {
 router.patch('/:id', (req, res) => {
   const { id } = req.params;
   const body = req.body;
-  res.json({
-    message: 'update partial',
-    data: body,
-    id
-  });
+  const category = categoriesService.update(id, body)
+  res.json({message: 'updated', category});
 });
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
-    message: 'delete',
-    id
-  });
+  const id_deleted = categoriesService.delete(id)
+  res.json(id_deleted);
 });
 
 module.exports = router
