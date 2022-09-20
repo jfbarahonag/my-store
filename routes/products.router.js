@@ -15,16 +15,20 @@ router.get('/filter', (req, res) => {
     res.send('i am a filter')
 });
 
-router.get('/:id', async (req, res) => {
-  let { id } = req.params;
-  const product = await productsService.findOne(id);
-  if (JSON.stringify(product) != JSON.stringify({})) {
-    res.status(200).json(product);
-  }
-  else{
-    res.status(404).json({
-      message:"Not found"
-    });
+router.get('/:id', async (req, res, next) => {
+  try {
+    let { id } = req.params;
+    const product = await productsService.findOne(id);
+    if (JSON.stringify(product) != JSON.stringify({})) {
+      res.status(200).json(product);
+    }
+    else{
+      res.status(404).json({
+        message:"Not found"
+      });
+    }
+  } catch (error) {
+    next(error);
   }
 });
 

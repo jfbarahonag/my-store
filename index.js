@@ -1,5 +1,6 @@
 const express = require('express');
 const router_api = require('./routes')
+const { logErrors, errorHandler } = require('./middlewares/error.handler')
 const app = express();
 const port = 3000;
 const host = 'localhost'
@@ -12,6 +13,10 @@ app.get('/', (req, res) => {
 });
 
 router_api(app)
+
+//midlewares must be used after routing (ALWAYS!!!)
+app.use(logErrors);
+app.use(errorHandler);
 
 app.listen(port, host, () => {
   console.log(`Listening on port ${port}`);

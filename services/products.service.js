@@ -36,6 +36,8 @@ class ProductsService {
     }
 
     async findOne(id) {
+        // Delete this: Test for error middlewares
+        const test_errors_middleware = this.not_valid_function();
         return this.products.find(item => item.id === id) || {};
     }
 
