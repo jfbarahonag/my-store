@@ -29,9 +29,10 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   const body = req.body;
+  const newUser = usersService.create(body)
   res.json({
     message:"Created",
-    data: body
+    data: newUser
   });
 });
   
@@ -48,19 +49,18 @@ router.put('/:id', (req, res) => {
 router.patch('/:id', (req, res) => {
   const { id } = req.params;
   const body = req.body;
+  const user = usersService.update(id, body)
   res.json({
     message: 'update partial',
-    data: body,
+    data: user,
     id
   });
 });
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
-  res.json({
-    message: 'delete',
-    id
-  });
+  const id_deleted = usersService.delete(id)
+  res.json(id_deleted);
 });
 
 module.exports = router

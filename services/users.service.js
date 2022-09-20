@@ -22,8 +22,13 @@ class UsersService {
         };
     }
 
-    create() {
-
+    create(data) {
+        const newUser = {
+            id: faker.datatype.uuid(),
+            ...data
+        };
+        this.users.push(newUser);
+        return newUser;
     }
 
     find() {
@@ -34,12 +39,26 @@ class UsersService {
         return this.users.find(item => item.id === id) || {};
     }
 
-    update() {
-
+    update(id, changes) {
+        const idx = this.users.findIndex(item => item.id === id);
+        if (idx === -1) {
+            throw new Error('User not found');
+        }
+        const user = this.users[idx];
+        this.users[idx] = {
+            ...user,
+            ...changes
+        };
+        return this.users[idx];
     }
-
-    delete() {
-
+    
+    delete(id) {
+        const idx = this.users.findIndex(item => item.id === id);
+        if (idx === -1) {
+            throw new Error('User not found');
+        }
+        this.users.splice(idx, 1);
+        return {id};
     }
 }
 
