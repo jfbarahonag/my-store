@@ -1,3 +1,4 @@
+const boom = require('@hapi/boom');
 const faker = require('faker')
 
 class ProductsService {
@@ -13,6 +14,7 @@ class ProductsService {
                 name: faker.commerce.productName(),
                 price: parseInt(faker.commerce.price()),
                 image: faker.image.imageUrl(),
+                isBlock: faker.datatype.boolean(),
             });
         };
     }
@@ -29,22 +31,33 @@ class ProductsService {
     async find() {
         // simulate delayed reponse from a db
         return new Promise((resolve, reject) => {
+            const condition = this.products.length > 0
             setTimeout(() => {
-                resolve(this.products)
+                if(condition===true){
+                    resolve(this.products)
+                } else {
+                    reject({})
+                }
             }, 5000/*ms*/);
         })
     }
 
     async findOne(id) {
-        // Delete this: Test for error middlewares
-        const test_errors_middleware = this.not_valid_function();
-        return this.products.find(item => item.id === id) || {};
+        const product = this.products.find(item => item.id === id);
+        if (!product) {
+            throw boom.notFound('Product not found');
+        }
+        if(product.isBlock) {
+            throw boom.conflict('Product is blocked')
+        }
+
+        return product;
     }
 
     async update( id, changes) {
         const idx = this.products.findIndex(item => item.id === id);
         if (idx === -1) {
-            throw new Error('Product not found');
+            throw boom.notFound('Product not found');
         }
         const product = this.products[idx]
         this.products[idx] = {
@@ -57,7 +70,7 @@ class ProductsService {
     async delete(id) {
         const idx = this.products.findIndex(item => item.id === id);
         if (idx === -1) {
-            throw new Error('Product not found');
+            throw boom.notFound('Product not found');
         }
         this.products.splice(idx, 1)
         return { id }
