@@ -22,7 +22,7 @@ const options = {
 app.use(cors(options))
 
 app.get('/', (req, res) => {
-  res.send('Hi from Express');
+  res.send('Hi from Express. My name is jfbarahonag and this is my testing API. Enjoy it');
 });
 
 router_api(app)
