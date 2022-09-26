@@ -4,7 +4,6 @@ const router_api = require('./routes')
 const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/error.handler')
 const app = express();
 const port = process.env.PORT || 3000;
-const host = 'localhost'
 
 //middleware
 app.use(express.json())
@@ -33,6 +32,6 @@ app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 
-app.listen(port, host, () => {
+app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
