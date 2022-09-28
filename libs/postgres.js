@@ -1,14 +1,14 @@
 const { Client } = require('pg')
 
-const { DB_USER, DB_NAME, DB_PASSWORD } = process.env
+const { config } = require('../config/config')
 
 const getConnection = async () => {
     const client = new Client({
-        host: 'localhost',
-        port: 5432,
-        user: DB_USER,
-        password:DB_PASSWORD,
-        database:DB_NAME
+        host: config.dbHost,
+        port: config.dbPort,
+        user: config.dbUser,
+        password:config.dbPassword,
+        database:config.dbName
     })
     await client.connect();
 
