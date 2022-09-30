@@ -1,3 +1,5 @@
+const { ValidationError } = require("sequelize");
+
 // avoid eslint warnings
 function ignore_next(next_fct) {
     const condition = true
@@ -29,7 +31,19 @@ function boomErrorHandler(err, req, res, next) {
     next(err);
 }
 
+function isSequelizeError(err) {
+  return err instanceof ValidationError;
+}
+
 function sequelizeErrorHandler(err, req, res, next) {
+  if (isSequelizeError(err)) {
+    res.status(409).json({
+      statusCode: 409,
+      message: err.name,
+      errors: err.errors
+    });
+  }
+  /*
   if (err.parent) {
     const { fields, parent } = err;
     res.status(500).json({
@@ -37,6 +51,7 @@ function sequelizeErrorHandler(err, req, res, next) {
       message: parent.detail
     })
   }
+  */
   next(err);
 }
 
