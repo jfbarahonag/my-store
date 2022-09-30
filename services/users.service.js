@@ -3,6 +3,8 @@ const faker = require('faker')
 
 const { sequelize } = require('../libs/sequelize')
 
+const { models } = sequelize
+
 class UsersService {
   constructor(){
     this.users = [];
@@ -35,9 +37,8 @@ class UsersService {
   }
 
   async find() {
-    const query = 'SELECT * FROM tasks;';
-    const [data] = await sequelize.query(query);
-    return data;
+    const response = await models.User.findAll();
+    return response;
   }
 
     findOne(id) {

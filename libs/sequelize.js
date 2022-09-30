@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize');
+const { setUpModels } = require('../db/models')
 
 const { config } = require('../config/config');
 
@@ -8,7 +9,11 @@ const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${
 
 const sequelize = new Sequelize(URI, {
     dialect: 'postgres',
-    logging:true, 
+    logging:true,
 });
+
+setUpModels(sequelize);
+
+sequelize.sync();
 
 module.exports = { sequelize };
