@@ -29,4 +29,19 @@ function boomErrorHandler(err, req, res, next) {
     next(err);
 }
 
-module.exports = { logErrors, errorHandler, boomErrorHandler }
+function sequelizeErrorHandler(err, req, res, next) {
+  if (err.parent) {
+    const { fields, parent } = err;
+    res.status(500).json({
+      field: fields,
+      message: parent.detail
+    })
+  }
+  next(err);
+}
+
+module.exports = {
+  logErrors,
+  errorHandler,
+  boomErrorHandler,
+  sequelizeErrorHandler }

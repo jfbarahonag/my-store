@@ -2,8 +2,13 @@ const { config } = require('./config/config')
 const express = require('express');
 const cors = require('cors')
 const router_api = require('./routes')
-const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/error.handler')
-const app = express();
+const {
+  logErrors,
+  errorHandler,
+  boomErrorHandler,
+  sequelizeErrorHandler } = require('./middlewares/error.handler')
+
+  const app = express();
 const port = config.port;
 
 //middleware
@@ -31,6 +36,7 @@ router_api(app)
 //midlewares must be used after routing (ALWAYS!!!)
 app.use(logErrors);
 app.use(boomErrorHandler);
+app.use(sequelizeErrorHandler);
 app.use(errorHandler);
 
 app.listen(port);
