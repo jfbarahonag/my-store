@@ -34,23 +34,17 @@ async (req, res, next) => {
 
 router.post('/',
 validatorHandler(createUserSchema, 'body'),
-async (req, res) => {
-  const body = req.body;
-  const newUser = await usersService.create(body)
-  res.json({
-    message:"Created",
-    data: newUser
-  });
-});
-
-router.put('/:id', (req, res) => {
-  const { id } = req.params;
-  const body = req.body;
-  res.json({
-    message: 'update total',
-    data: body,
-    id
-  });
+async (req, res, next) => {
+  try {
+    const body = req.body;
+    const newUser = await usersService.create(body)
+    res.json({
+      message:"Created",
+      data: newUser
+    });
+  } catch (error) {
+    next(error)
+  }
 });
 
 router.patch('/:id',
