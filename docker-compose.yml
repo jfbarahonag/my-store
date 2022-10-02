@@ -8,10 +8,23 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - 5432:5432
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
-  
+
+  mysql:
+    image: mysql:5
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_PORT=${MYSQL_PORT}
+    ports:
+      - ${MYSQL_PORT}:${MYSQL_PORT}
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
   pgadmin:
     image: dpage/pgadmin4
     environment:
@@ -19,3 +32,11 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=root
     ports:
       - 5050:80
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - PMA_HOST=mysql
+    ports:
+      - 8080:80

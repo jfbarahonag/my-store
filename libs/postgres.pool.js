@@ -6,10 +6,6 @@ const USER = encodeURIComponent(config.dbUser)
 const PASSWORD = encodeURIComponent(config.dbPassword)
 const URI = `postgres://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
 
-if (config.env === 'dev') {
-    console.log(URI);
-}
-
 const pool = new Pool({
         connectionString: URI
     }
