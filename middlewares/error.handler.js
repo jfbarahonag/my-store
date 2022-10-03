@@ -43,15 +43,13 @@ function sequelizeErrorHandler(err, req, res, next) {
       errors: err.errors
     });
   }
-  /*
-  if (err.parent) {
+  else if (err.parent) {
     const { fields, parent } = err;
     res.status(500).json({
       field: fields,
       message: parent.detail
     })
   }
-  */
   next(err);
 }
 
