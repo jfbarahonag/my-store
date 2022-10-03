@@ -5,6 +5,7 @@ const id = Joi.number()
 // const last_name = Joi.string().min(3).max(32)
 const email = Joi.string().email()
 const password = Joi.string().min(8).max(32)
+const role = Joi.string().min(5)
 
 const createUserSchema = Joi.object({
   // first_name: first_name.required(),
@@ -21,7 +22,8 @@ const updateUserSchema = Joi.object({
   // first_name: first_name,
   // last_name: last_name,
   email: email,
-  password: password
+  password: password,
+  role: role,
 })
 
 

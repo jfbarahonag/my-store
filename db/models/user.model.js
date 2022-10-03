@@ -10,6 +10,12 @@ const userSchema = {
     type: DataTypes.INTEGER
   },
 
+  role: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    defaultValue: 'customer'
+  },
+
   email: {
     allowNull: false,
     type: DataTypes.STRING,
